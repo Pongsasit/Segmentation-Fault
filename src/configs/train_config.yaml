@@ -1,0 +1,12 @@
+# data
+batch_size: 32
+
+# training parameter
+model_type: '3dcnn' # '3dcnn', '1dcnn', 'lstm'
+model_name: 'model.pt'
+epoch: 100
+accumulate_gradient_iter: 1
+learning_rate: 0.0001
+lr_scheduler_step_size: 5
+early_stop: 10
+device: 'cuda' # 'cuda' or 'cpu'
