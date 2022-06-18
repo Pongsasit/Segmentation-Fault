@@ -1,5 +1,10 @@
 tag: v1
+<<<<<<< Updated upstream
 data_dir: '/media/ybaa/Data/VarunaHackathon2022'
 cropped_data_dir: '/media/ybaa/Data/VarunaHackathon2022/cropped'
+=======
+data_dir: '/home/user/hackathon/data'
+cropped_data_dir: '/home/user/hackathon/data/cropped'
+>>>>>>> Stashed changes
 
 #model config
