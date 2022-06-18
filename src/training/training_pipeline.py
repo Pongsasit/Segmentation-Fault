@@ -11,7 +11,7 @@ from torch import nn
 import argparse
 from utils.ymlParser import parse_yml
 from models.model import NormalCNN3, NormalCNN1, NormalLSTM
-from data.torch_data import get_data
+from data.torch_data import get_train_data, get_val_data
 
 def main(args=None):
     """
@@ -26,7 +26,9 @@ def main(args=None):
     config = parse_yml(parser.config_path)
 
     # get data
-    train_dataloader, val_dataloader = get_data(config.batch_size)
+    train_dataloader = get_train_data(config.batch_size, config.train_data_root, config.image_size, config.in_memory)
+
+    val_dataloader = get_val_data(config.batch_size, config.val_data_root, config.image_size, config.in_memory)
 
     # init model
     model = None

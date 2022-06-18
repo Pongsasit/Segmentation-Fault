@@ -15,7 +15,7 @@ import argparse
 from utils.ymlParser import parse_yml
 from data.reader import prepre_geo_data
 from models.model import NormalCNN1, NormalCNN3, NormalLSTM
-from data.torch_data import get_data
+from data.torch_data import get_val_data
 
 def evaluate_model(model, dataloader, n_classes, device):
     model = model.eval()
@@ -54,7 +54,7 @@ def main(args=None):
     config = parse_yml(parser.config_path)
 
     # get data
-    _, val_dataloader = get_data(config.batch_size)
+    val_dataloader = get_val_data(config.batch_size, config.val_data_root, config.image_size, config.in_memory)
 
     # init configurable parameter
     model_name = config.model_name

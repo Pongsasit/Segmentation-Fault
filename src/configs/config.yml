@@ -1,5 +1,5 @@
 tag: v1
-data_dir: '/media/ybaa/Data/VarunaHackathon2022'
-cropped_data_dir: '/media/ybaa/Data/VarunaHackathon2022/cropped'
+data_dir: '/home/jui/Data/varuna'
+cropped_data_dir: '/home/jui/Data/varuna/cropped'
 
 #model config
