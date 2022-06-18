@@ -5,14 +5,15 @@ from glob import glob
 from osgeo import gdal, ogr, osr
 from os.path import join, exists
 from os import makedirs
-from shapely.geometry import shape, MultiPolygon, LineString, Polygon, GeometryCollection
+from shapely.geometry import shape
+from tqdm import tqdm
 
 
 def extract_polygons(config, shape_file, gtif_orig, im_path, dataset):
 
     polygons = []
     s = shape_file.GetLayer(0)
-    for i in range(s.GetFeatureCount()):
+    for i in tqdm(range(s.GetFeatureCount())):
         feature = s.GetFeature(i)
         first = feature.ExportToJson()
         first = json.loads(first)
@@ -29,6 +30,9 @@ def extract_polygons(config, shape_file, gtif_orig, im_path, dataset):
         if not exists(export_dir):
             makedirs(export_dir)
 
+        if dataset == 'test':
+            first['properties']['crop_type'] = 'X'
+
         ds = gdal.Translate( join(config.cropped_data_dir, '%s/%s/%s/%s/%s_%s.tif' % (dataset, year, time, first['id'], first['properties']['crop_type'], filename)) , gtif_orig, projWin=[shp.bounds[0], shp.bounds[3], shp.bounds[2], shp.bounds[1]])
         ds = None
             
@@ -37,7 +41,7 @@ def prepre_geo_data(config):
     
 
     train_labels_shp_path = join(config.data_dir, 'training_area', 'traindata.shp')
-    test_labels_shp_path = join(config.data_dir, 'test_area', 'testdata.shp')
+    test_labels_shp_path = join(config.data_dir, 'testing_area', 'testdata.shp')
 
     train_labels = ogr.Open(train_labels_shp_path)
     test_labels = ogr.Open(test_labels_shp_path)
@@ -48,13 +52,11 @@ def prepre_geo_data(config):
     for im_path in im_paths:
         print(im_path)
         
-        # im = imageio.imread(im_path)
+        im = imageio.imread(im_path)
         gtif_orig = gdal.Open(im_path)
 
         extract_polygons(config, train_labels, gtif_orig, im_path, 'train')
         extract_polygons(config, test_labels, gtif_orig, im_path, 'test')
-
-        stop=1
 
 
 
