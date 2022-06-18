@@ -1,0 +1,6 @@
+# data
+batch_size: 32
+
+# eval parameter
+model_name: 'model.pt'
+device: 'cuda' # 'cuda' or 'cpu'
