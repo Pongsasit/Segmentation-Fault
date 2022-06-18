@@ -1,5 +1,5 @@
 tag: v1
-data_dir: '/media/ybaa/Data/VarunaHackathon2022'
-cropped_data_dir: '/media/ybaa/Data/VarunaHackathon2022/cropped'
+data_dir: '/media/pongsasit/480/ARV_hackathon/data'
+cropped_data_dir: '/media/pongsasit/480/ARV_hackathon/cropped'
 
 #model config
