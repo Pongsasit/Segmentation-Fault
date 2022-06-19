@@ -17,7 +17,7 @@ def predict(model, dataloader, device):
     model = model.eval()
     y_pred = None
     for x, y in dataloader:
-        x = x.to(device)
+        x = x.float().to(device)
         y = y.to(device)
 
         with torch.no_grad():
