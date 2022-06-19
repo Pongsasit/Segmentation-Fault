@@ -60,10 +60,10 @@ class NormalCNN3(nn.Module):
     def __init__(self):
         super().__init__()
         self.activation = torch.nn.LeakyReLU()
-        self.cnn1 = torch.nn.Conv3d(5, 10, kernel_size=5, stride=2)
-        self.cnn2 = torch.nn.Conv3d(10, 20, kernel_size=5, stride=2)
-        self.cnn3 = torch.nn.Conv3d(20, 10, kernel_size=5, stride=2)
-        self.linear1 = torch.nn.Linear(1250, 500)
+        self.cnn1 = torch.nn.Conv3d(5, 20, kernel_size=5, stride=2)
+        self.cnn2 = torch.nn.Conv3d(20, 40, kernel_size=5, stride=2)
+        self.cnn3 = torch.nn.Conv3d(40, 10, kernel_size=5, stride=2)
+        self.linear1 = torch.nn.Linear(1500, 500)
         self.linear2 = torch.nn.Linear(500, 4)
 
     def forward(self, x):
