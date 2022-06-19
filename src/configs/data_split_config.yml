@@ -1,0 +1,6 @@
+train_size: 95
+val_size: 5
+train_number: 1317
+train_path: '/home/jui/Data/varuna/cropped/train'
+val_path: '/home/jui/Data/varuna/cropped/val'
+seed: 10
