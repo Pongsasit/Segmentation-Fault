@@ -40,6 +40,7 @@ def main(args=None):
         model = NormalLSTM()
     else:
         raise "doesn't support this model type. you can add new models in src/models/mode.py"
+    device = torch.device(config.device)
     model = model.to(device)
 
     # init configurable parameter
@@ -51,7 +52,7 @@ def main(args=None):
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, config.lr_scheduler_step_size, gamma=0.9, last_epoch=- 1, verbose=True)
     early_stop = config.early_stop
     early_stop_count = 0
-    device = torch.device(config.device)
+    
 
     scaler = torch.cuda.amp.GradScaler()
     best_acc = -1
