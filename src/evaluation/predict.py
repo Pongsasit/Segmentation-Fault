@@ -17,7 +17,7 @@ def predict(model, dataloader, device):
     model = model.eval()
     y_pred = None
     for x, y in dataloader:
-        x = x.to(device)
+        x = x.float().to(device)
         y = y.to(device)
 
         with torch.no_grad():
@@ -54,7 +54,7 @@ def main(args=None):
     model = torch.load(model_name).to(device)
     y_pred = predict(model, test_dataloader, device=device)
 
-    df = pd.DataFrame({"crop_type": y_pred.numpy().flatten()})
+    df = pd.DataFrame({"crop_type": y_pred.to("cpu").detach().numpy().flatten()})
     df.to_csv("submit_result.csv")
 
     print("Export submit result to: submit_result.csv")
