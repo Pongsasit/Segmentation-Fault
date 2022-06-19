@@ -63,7 +63,7 @@ class NormalCNN3(nn.Module):
         self.cnn1 = torch.nn.Conv3d(5, 10, kernel_size=5, stride=2)
         self.cnn2 = torch.nn.Conv3d(10, 20, kernel_size=5, stride=2)
         self.cnn3 = torch.nn.Conv3d(20, 10, kernel_size=5, stride=2)
-        self.linear1 = torch.nn.Linear(1500, 500)
+        self.linear1 = torch.nn.Linear(1250, 500)
         self.linear2 = torch.nn.Linear(500, 4)
 
     def forward(self, x):
