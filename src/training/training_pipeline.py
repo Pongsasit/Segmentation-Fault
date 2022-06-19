@@ -26,9 +26,9 @@ def main(args=None):
     config = parse_yml(parser.config_path)
 
     # get data
-    train_dataloader = get_train_data(config.batch_size, config.train_data_root, config.image_size, config.in_memory)
+    train_dataloader = get_train_data(config.batch_size, config.train_data_root, config.image_size, config.in_memory, config.feature_list)
 
-    val_dataloader = get_val_data(config.batch_size, config.val_data_root, config.image_size, config.in_memory)
+    val_dataloader = get_val_data(config.batch_size, config.val_data_root, config.image_size, config.in_memory, config.feature_list)
 
     # init model
     model = None
@@ -40,6 +40,7 @@ def main(args=None):
         model = NormalLSTM()
     else:
         raise "doesn't support this model type. you can add new models in src/models/mode.py"
+    model = model.to(device)
 
     # init configurable parameter
     model_name = config.model_name
@@ -74,7 +75,7 @@ def main(args=None):
         model.train()
         train_loss = 0
         for batch, (x, y) in tqdm(enumerate(train_dataloader), total=len(train_dataloader)):
-            x, y = x.to(device), y.to(device)
+            x, y = x.to(device).float(), y.to(device).float()
 
             with torch.cuda.amp.autocast():
                 pred = model(x)
@@ -104,7 +105,7 @@ def main(args=None):
             num_batches = len(val_dataloader)
             with torch.no_grad():
                 for x, y in val_dataloader:
-                    x, y = x.to(device), y.to(device)
+                    x, y = x.to(device).float(), y.to(device).float()
                     pred = model(x)
                     test_loss += loss_fn(pred, y).item()
                     correct += (pred.argmax(1) == y).type(torch.float).sum().item()

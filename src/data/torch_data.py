@@ -8,7 +8,8 @@ from torch.utils.data import DataLoader, Dataset
 
 class CustomDataset(Dataset):
     # ["AOT", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B11", "B12", "SCL", "TCI", "WVP"]
-    def __init__(self, data_root="", image_size=100, in_memory=True, feature_list = ["B02", "B03", "B04", "B08", "B8A"]):
+    # (batch, channel, sequenc, w, h)
+    def __init__(self, data_root="", image_size=100, in_memory=True, feature_list=["B02", "B03", "B04", "B08", "B8A"]):
         self.data_root = data_root
         self.date_list = os.listdir(os.path.join(self.data_root, "2021"))
         self.date_list.sort()
@@ -108,7 +109,7 @@ class CustomDataset(Dataset):
 
             return output_np, label
 
-def get_train_data(batch_size: int = 32, data_root="", image_size=64, in_memory=True):
+def get_train_data(batch_size: int = 32, data_root="", image_size=64, in_memory=True, feature_list=None):
     """
     Args:
         batch_size: int
@@ -116,13 +117,13 @@ def get_train_data(batch_size: int = 32, data_root="", image_size=64, in_memory=
     Return:
         train_dataloader: DataLoader
     """
-    train_dataset = CustomDataset(data_root, image_size, in_memory)
+    train_dataset = CustomDataset(data_root, image_size, in_memory, feature_list)
 
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size)
 
     return train_dataloader
 
-def get_val_data(batch_size: int = 32, data_root="", image_size=64, in_memory=True):
+def get_val_data(batch_size: int = 32, data_root="", image_size=64, in_memory=True, feature_list=None):
     """
     Args:
         batch_size: int
@@ -130,12 +131,12 @@ def get_val_data(batch_size: int = 32, data_root="", image_size=64, in_memory=Tr
     Return:
         val_dataloader: DataLoader
     """
-    val_dataset = CustomDataset(data_root, image_size, in_memory)
+    val_dataset = CustomDataset(data_root, image_size, in_memory, feature_list)
     val_dataloader = DataLoader(val_dataset, batch_size=batch_size)
 
     return val_dataloader
 
-def get_test_data(batch_size: int = 32, data_root="", image_size=64, in_memory=True):
+def get_test_data(batch_size: int = 32, data_root="", image_size=64, in_memory=True, feature_list=None):
     """
     Args:
         batch_size: int
@@ -143,7 +144,7 @@ def get_test_data(batch_size: int = 32, data_root="", image_size=64, in_memory=T
     Return:
         test_dataloader: DataLoader
     """
-    test_dataset = CustomDataset(data_root, image_size, in_memory)
+    test_dataset = CustomDataset(data_root, image_size, in_memory, feature_list)
 
     test_dataloader = DataLoader(test_dataset, batch_size=batch_size)
 

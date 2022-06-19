@@ -54,7 +54,7 @@ def main(args=None):
     config = parse_yml(parser.config_path)
 
     # get data
-    val_dataloader = get_val_data(config.batch_size, config.val_data_root, config.image_size, config.in_memory)
+    val_dataloader = get_val_data(config.batch_size, config.val_data_root, config.image_size, config.in_memory, config.feature_list)
 
     # init configurable parameter
     model_name = config.model_name
