@@ -2,6 +2,7 @@ import os
 import cv2
 import glob
 import numpy as np
+import imageio
 from tqdm import tqdm
 from multiprocessing.pool import ThreadPool
 from torch.utils.data import DataLoader, Dataset
@@ -68,7 +69,8 @@ class CustomDataset(Dataset):
                 image_name = "*_47PQS_{}_{}.tif".format(date, feature)
                 img_path = glob.glob(os.path.join(img_root_path, image_name))[0]
                 label = img_path.split("/")[-1][0]
-                img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+                # img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+                img = imageio.imread(img_path)
                 img = self.image_resize(img, desired_size=self.image_size)
                 output_np[k, j, :, :] = img
 

@@ -38,7 +38,7 @@ def evaluate_model(model, dataloader, n_classes, device):
     wa = FM.accuracy(y_pred, y_true)
     cm = FM.confusion_matrix(y_pred, y_true, normalize='true', num_classes=n_classes)
     ua = torch.diag(cm).mean()
-    print(classification_report(y_true.numpy().flatten(), y_pred.numpy().flatten()))
+    print(classification_report(y_true.to("cpu").numpy().flatten(), y_pred.to("cpu").numpy().flatten()))
     return wa, ua, cm
 
 def main(args=None):
