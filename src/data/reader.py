@@ -54,7 +54,7 @@ def prepre_geo_data(config):
     test_labels = ogr.Open(test_labels_shp_path)
 
     
-    im_paths = glob(join((config.data_dir), 'sentinel-2-image*', '2021', '**', 'IMG_DATA', '*.jp2'))
+    im_paths = glob(join((config.data_dir), 'sentinel-2-image*', '*', '**', 'IMG_DATA', '*.jp2'))
 
     # reference_resolution = np.array([imageio.imread(p).shape[:2] for p in im_paths if 'TCI' in p]).max(0) # this line gets the biggest resolution from reference image, but it takes some time, so we know the biggest is 2051 so thats why its commented and hardcoded
     reference_resolution = [2051, 2051]

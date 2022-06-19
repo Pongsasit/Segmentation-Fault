@@ -24,6 +24,9 @@ def main(args=None):
 
     config = parse_yml(parser.config_path)
 
+    print('train path:',config.train_path)
+    print('val path:',config.val_path)
+
     train_size = config.train_size
     val_size = config.val_size
     train_number = config.train_number
@@ -35,7 +38,6 @@ def main(args=None):
 
     if train_size + val_size != 100:
         raise "train_size + val_size must equal 100"
-
     
     order_list = [i for i in range(train_number)]
     train, val = train_test_split(order_list, test_size=val_size/100, random_state=seed)
@@ -46,6 +48,7 @@ def main(args=None):
                 os.makedirs(os.path.join(val_path, "2021", folder.split("/")[-1], str(i)))
             os.system("mv {} {} && rm -rf {}".format(os.path.join(folder, str(i), "*.tif"), os.path.join(val_path, "2021", folder.split("/")[-1], str(i)), os.path.join(folder, str(i))))
 
+    print('split done')
 
 if __name__ == '__main__':
     main()

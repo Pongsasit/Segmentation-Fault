@@ -1,5 +1,28 @@
 tag: v1
-data_dir: '/home/jui/Data/varuna'
-cropped_data_dir: '/home/jui/Data/varuna/cropped'
+seed: 10
 
-#model config
+# data
+data_dir: '/media/martyna/Data2/VarunaHackathon2022'
+cropped_data_dir: '/media/martyna/Data2/VarunaHackathon2022/cropped'
+
+train_path: '/media/martyna/Data2/VarunaHackathon2022/cropped/train'
+val_path: '/media/martyna/Data2/VarunaHackathon2022/cropped/val'    
+
+train_size: 95                  # size of train set
+val_size: 5                     # size of validation set
+train_number: 1317              # amount of training labels
+
+# training
+image_size: 64
+in_memory: false
+batch_size: 32
+feature_list: ["B02", "B03", "B04", "B08", "B8A"] # ["AOT", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B11", "B12", "SCL", "TCI", "WVP"]
+model_type: '3dcnn' # '3dcnn', '1dcnn', 'lstm'
+model_name: 'model.pt'
+epoch: 100
+accumulate_gradient_iter: 1
+learning_rate: 0.0001
+lr_scheduler_step_size: 5
+early_stop: 10
+device: 'cuda' # 'cuda' or 'cpu'
+

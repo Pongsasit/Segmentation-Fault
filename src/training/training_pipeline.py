@@ -4,6 +4,7 @@ current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
 
+import cv2
 from tqdm import tqdm
 import torch
 from torch import nn
@@ -26,9 +27,9 @@ def main(args=None):
     config = parse_yml(parser.config_path)
 
     # get data
-    train_dataloader = get_train_data(config.batch_size, config.train_data_root, config.image_size, config.in_memory, config.feature_list)
+    train_dataloader = get_train_data(config.batch_size, config.train_path, config.image_size, config.in_memory, config.feature_list)
 
-    val_dataloader = get_val_data(config.batch_size, config.val_data_root, config.image_size, config.in_memory, config.feature_list)
+    val_dataloader = get_val_data(config.batch_size, config.val_path, config.image_size, config.in_memory, config.feature_list)
 
     # init model
     model = None
