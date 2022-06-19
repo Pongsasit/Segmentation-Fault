@@ -76,7 +76,7 @@ def main(args=None):
         model.train()
         train_loss = 0
         for batch, (x, y) in tqdm(enumerate(train_dataloader), total=len(train_dataloader)):
-            x, y = x.to(device).float(), y.to(device).float()
+            x, y = x.float().to(device), y.float().to(device)
 
             with torch.cuda.amp.autocast():
                 pred = model(x)
@@ -106,7 +106,7 @@ def main(args=None):
             num_batches = len(val_dataloader)
             with torch.no_grad():
                 for x, y in val_dataloader:
-                    x, y = x.to(device).float(), y.to(device).float()
+                    x, y = x.float().to(device), y.float().to(device)
                     pred = model(x)
                     test_loss += loss_fn(pred, y).item()
                     correct += (pred.argmax(1) == y).type(torch.float).sum().item()
