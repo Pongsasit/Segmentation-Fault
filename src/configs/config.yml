@@ -16,7 +16,7 @@ train_number: 1317              # amount of training labels
 image_size: 64
 in_memory: false
 batch_size: 32
-feature_list: ["B02", "B03", "B04", "B08", "B8A"] # ["AOT", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B11", "B12", "SCL", "TCI", "WVP"]
+feature_list: ["B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B11", "TCI"] # ["AOT", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B11", "B12", "SCL", "TCI", "WVP"]
 model_type: '3dcnn' # '3dcnn', '1dcnn', 'lstm'
 model_name: 'model.pt'
 epoch: 100
