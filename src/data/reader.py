@@ -34,9 +34,13 @@ def extract_polygons(config, shape_file, gtif_orig, im_path, dataset):
         if dataset == 'test':
             first['properties']['crop_type'] = 'X'
 
-        print(shp.bounds, gtif_orig.GetGeoTransform())
+        save_path = join(config.cropped_data_dir, '%s/%s_%s.tif' % (export_dir, first['properties']['crop_type'], filename))
 
-        ds = gdal.Translate( join(config.cropped_data_dir, '%s/%s/%s/%s/%s_%s.tif' % (dataset, year, time, first['id'], first['properties']['crop_type'], filename)) , gtif_orig, projWin=[shp.bounds[0], shp.bounds[3], shp.bounds[2], shp.bounds[1]])
+        if exists(save_path):
+            print('already processed')
+            return
+
+        ds = gdal.Translate( save_path , gtif_orig, projWin=[shp.bounds[0], shp.bounds[3], shp.bounds[2], shp.bounds[1]])
         ds = None
             
 
@@ -50,12 +54,12 @@ def prepre_geo_data(config):
     test_labels = ogr.Open(test_labels_shp_path)
 
     
-    im_paths = glob(join((config.data_dir), 'sentinel-2-image', '2021', '**', 'IMG_DATA', '*.jp2'))
+    im_paths = glob(join((config.data_dir), 'sentinel-2-image*', '2021', '**', 'IMG_DATA', '*.jp2'))
 
     # reference_resolution = np.array([imageio.imread(p).shape[:2] for p in im_paths if 'TCI' in p]).max(0) # this line gets the biggest resolution from reference image, but it takes some time, so we know the biggest is 2051 so thats why its commented and hardcoded
     reference_resolution = [2051, 2051]
 
-    for im_path in im_paths:
+    for im_path in tqdm(im_paths):
         print(im_path)
         
         # im = imageio.imread(im_path)
@@ -66,13 +70,16 @@ def prepre_geo_data(config):
         # if gtif_orig.RasterXSize < reference_resolution[0] or gtif_orig.RasterYSize < reference_resolution[1]:
 
         # resize
-        test = subprocess.Popen(["gdal_translate", str(im_path),  "-outsize", str(reference_resolution[0]), str(reference_resolution[1]) ,"tmp.tif"], stdout=subprocess.PIPE)
+        test = subprocess.Popen(["gdal_translate", str(im_path), "-outsize", str(reference_resolution[0]), str(reference_resolution[1]) ,"tmp.tif"], stdout=subprocess.PIPE)
+        _ = test.communicate()[0]
+
+        test = subprocess.Popen(["gdal_translate", "tmp.tif", "-scale" ,"tmp2.tif"], stdout=subprocess.PIPE)
         _ = test.communicate()[0]
 
         # cut to shape
-        test = subprocess.Popen(["gdalwarp", "-crop_to_cutline", "-cutline", train_labels_shp_path, 'tmp.tif', 'tmp_train.tif'], stdout=subprocess.PIPE)
+        test = subprocess.Popen(["gdalwarp", "-overwrite", "-crop_to_cutline", "-cutline", train_labels_shp_path, 'tmp2.tif', 'tmp_train.tif'], stdout=subprocess.PIPE)
         _ = test.communicate()[0]
-        test = subprocess.Popen(["gdalwarp", "-crop_to_cutline", "-cutline", test_labels_shp_path, 'tmp.tif', 'tmp_test.tif'], stdout=subprocess.PIPE)
+        test = subprocess.Popen(["gdalwarp",  "-overwrite", "-crop_to_cutline", "-cutline", test_labels_shp_path, 'tmp2.tif', 'tmp_test.tif'], stdout=subprocess.PIPE)
         _ = test.communicate()[0]
 
         gtif_orig_train = gdal.Open('tmp_train.tif')
@@ -80,6 +87,8 @@ def prepre_geo_data(config):
 
         extract_polygons(config, train_labels, gtif_orig_train, im_path, 'train')
         extract_polygons(config, test_labels, gtif_orig_test, im_path, 'test')
+
+        stop=1
 
 
 
