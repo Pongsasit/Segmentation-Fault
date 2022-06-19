@@ -54,7 +54,7 @@ def main(args=None):
     model = torch.load(model_name).to(device)
     y_pred = predict(model, test_dataloader, device=device)
 
-    df = pd.DataFrame({"crop_type": y_pred.to("cpu").detach().numpy().flatten()})
+    df = pd.DataFrame({"crop_type": y_pred.to("cpu").detach().numpy().flatten()+1})
     df.to_csv("submit_result.csv")
 
     print("Export submit result to: submit_result.csv")

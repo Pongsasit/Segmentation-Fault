@@ -55,7 +55,7 @@ You can configure training parameters from the config file. To recreate out best
 Run the training using following command:
 
 ```bash
-python src/train/training_pipeline.py -c src/configs/config.yml
+python src/train/training_pipeline.py -c src/configs/train_config.yml
 ```
 
 ## Evaluate
