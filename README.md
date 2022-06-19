@@ -65,5 +65,5 @@ python src/evaluation/evaluate.py -c src/configs/evaluate_config.yml
 
 ## Predict
 ```bash
-python3 src/evaluate/predict.py -c src/configs/predict_config.yml
+python3 src/evaluation/predict.py -c src/configs/predict_config.yml
 ```
