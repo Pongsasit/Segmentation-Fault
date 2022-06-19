@@ -12,7 +12,8 @@ class CustomDataset(Dataset):
         self.data_root = data_root
         self.date_list = os.listdir(os.path.join(self.data_root, "2021"))
         self.date_list.sort()
-        self.train_size = len(os.listdir(os.path.join(self.data_root, "2021", self.date_list[0])))
+        self.train_list = os.listdir(os.path.join(self.data_root, "2021", self.date_list[0]))
+        self.train_size = len(self.train_list)
         self.feature_list = feature_list
         self.in_memory = in_memory
         self.image_size = image_size
@@ -46,6 +47,7 @@ class CustomDataset(Dataset):
 
     def get_feature(self, i):
         # read cache
+        i = self.train_list[i]
         if os.path.exists(os.path.join(self.data_root, "npy", str(i)+".npy")):
             with open(os.path.join(self.data_root, "npy", str(i)+".npy"), "rb") as f:
                 output_np = np.load(f)
@@ -106,7 +108,7 @@ class CustomDataset(Dataset):
 
             return output_np, label
 
-def get_train_data(batch_size: int = 32, data_root="", image_size=100, in_memory=True):
+def get_train_data(batch_size: int = 32, data_root="", image_size=64, in_memory=True):
     """
     Args:
         batch_size: int
@@ -120,7 +122,7 @@ def get_train_data(batch_size: int = 32, data_root="", image_size=100, in_memory
 
     return train_dataloader
 
-def get_val_data(batch_size: int = 32, data_root="", image_size=100, in_memory=True):
+def get_val_data(batch_size: int = 32, data_root="", image_size=64, in_memory=True):
     """
     Args:
         batch_size: int
@@ -133,7 +135,7 @@ def get_val_data(batch_size: int = 32, data_root="", image_size=100, in_memory=T
 
     return val_dataloader
 
-def get_test_data(batch_size: int = 32, data_root="", image_size=100, in_memory=True):
+def get_test_data(batch_size: int = 32, data_root="", image_size=64, in_memory=True):
     """
     Args:
         batch_size: int

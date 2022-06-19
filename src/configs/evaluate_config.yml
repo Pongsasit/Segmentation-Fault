@@ -1,6 +1,6 @@
 # data
 val_data_root: '/home/jui/Data/varuna/cropped/val'
-image_size: 100
+image_size: 64
 in_memory: true
 batch_size: 32
 
