@@ -2,7 +2,7 @@
 train_data_root: '/home/jui/Data/varuna/cropped/train'
 val_data_root: '/home/jui/Data/varuna/cropped/val'
 image_size: 64
-in_memory: true
+in_memory: false
 batch_size: 32
 feature_list: ["B02", "B03", "B04", "B08", "B8A"] # ["AOT", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B11", "B12", "SCL", "TCI", "WVP"]
 

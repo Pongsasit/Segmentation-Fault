@@ -21,7 +21,7 @@ def evaluate_model(model, dataloader, n_classes, device):
     model = model.eval()
     y_true, y_pred = None, None
     for x, y in dataloader:
-        x = x.to(device)
+        x = x.float().to(device)
         y = y.to(device)
 
         with torch.no_grad():
