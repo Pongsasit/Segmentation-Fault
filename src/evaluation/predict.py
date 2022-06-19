@@ -9,7 +9,6 @@ import pandas as pd
 
 import argparse
 from utils.ymlParser import parse_yml
-from data.reader import prepre_geo_data
 from models.model import NormalCNN1, NormalCNN3, NormalLSTM
 from data.torch_data import get_test_data
 
